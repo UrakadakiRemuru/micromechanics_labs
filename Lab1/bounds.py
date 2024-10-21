@@ -61,13 +61,19 @@ def hashin_shtrikman_bounds_conductivity(k_0: float, k_1: float) -> dict:
 
     for p in volume_fraction_of_inhomo:
         if k_0 > k_1:
-            k_up.append((k_0 + p / ((1 - p) / 3 / k_0 + 1 / (k_1 - k_0))) / k_0)
-            k_low.append((k_1 + (1 - p) / (p / 3 / k_1 - 1 / (k_1 - k_0))) / k_0)
+            try:
+                k_up.append((k_0 + p / ((1 - p) / 3 / k_0 + 1 / (k_1 - k_0))) / k_0)
+                k_low.append((k_1 + (1 - p) / (p / 3 / k_1 - 1 / (k_1 - k_0))) / k_0)
+            except ZeroDivisionError:
+                k_up.append(k_0 / k_0)
+                k_low.append(k_1 / k_0)
         else:
-            k_low.append((k_0 + p / ((1 - p) / 3 / k_0 + 1 / (k_1 - k_0))) / k_0)
-            k_up.append((k_1 + (1 - p) / (p / 3 / k_1 - 1 / (k_1 - k_0))) / k_0)
-    print('Upper bound:', k_up)
-    print('Lowwer bound:', k_low)
+            try:
+                k_low.append((k_0 + p / ((1 - p) / 3 / k_0 + 1 / (k_1 - k_0))) / k_0)
+                k_up.append((k_1 + (1 - p) / (p / 3 / k_1 - 1 / (k_1 - k_0))) / k_0)
+            except ZeroDivisionError:
+                k_low.append(k_0 / k_0)
+                k_up.append(k_1 / k_0)
     return {
         'bound_1': k_up,
         'colour_1': 'green',
@@ -120,7 +126,7 @@ def draw_bounds_conductivity(data: list[dict]) -> None:
 
 
 if __name__ == '__main__':
-    k_0, k_1 = 700, 300
+    k_0, k_1 = 200, 300
     data1 = voigt_reuss_bounds_conductivity(k_0, k_1)
     data2 = hashin_shtrikman_bounds_conductivity(k_0, k_1)
     draw_bounds_conductivity([data1, data2])
