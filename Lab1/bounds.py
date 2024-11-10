@@ -89,7 +89,7 @@ def draw_bounds_elasticity(data: dict) -> None:
     fig, (ax1, ax2) = plt.subplots(ncols=2, figsize=(10, 4))
 
     ax1.plot(data['k']['volume_fraction'], data['k']['bound_1'], label='Voigt', linestyle='--', color=data['k']['colour_1'])
-    ax1.plot(data['k']['volume_fraction'], data['k']['bound_2'], label='Reuss', linestyle='--',
+    ax1.plot(data['k']['volume_fraction'], data['k']['bound_2'], label='Reuss', linestyle='-.',
              color=data['k']['colour_2'])
     ax1.set_title(data['k']['name'])
     ax1.set_xlabel(r'$p$')
@@ -99,7 +99,7 @@ def draw_bounds_elasticity(data: dict) -> None:
 
     ax2.plot(data['m']['volume_fraction'], data['m']['bound_1'], label='Voigt', linestyle='--',
              color=data['m']['colour_1'])
-    ax2.plot(data['m']['volume_fraction'], data['m']['bound_2'], label='Reuss', linestyle='--',
+    ax2.plot(data['m']['volume_fraction'], data['m']['bound_2'], label='Reuss', linestyle='-.',
              color=data['m']['colour_2'])
     ax2.set_title(data['m']['name'])
     ax2.set_xlabel(r'$p$')
@@ -126,9 +126,9 @@ def draw_bounds_conductivity(data: list[dict]) -> None:
 
 
 if __name__ == '__main__':
-    k_0, k_1 = 200, 300
+    k_0, k_1 = 500, 200
     data1 = voigt_reuss_bounds_conductivity(k_0, k_1)
     data2 = hashin_shtrikman_bounds_conductivity(k_0, k_1)
     draw_bounds_conductivity([data1, data2])
-    data = voigt_reuss_bounds_elasticity(randint(1, 800), randint(1, 800), randint(1, 200), randint(1, 200))
-    draw_bounds_elasticity(data)
+    # data = voigt_reuss_bounds_elasticity(randint(1, 800), randint(1, 800), randint(1, 200), randint(1, 200))
+    # draw_bounds_elasticity(data)
